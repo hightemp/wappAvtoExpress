@@ -1,0 +1,132 @@
+<template>
+  <div :class="sComponentName">
+    <div class="form-check" v-bind:class="{ 'has-error':aErrors.length }">
+      <input 
+        type="checkbox" 
+        class="form-check-input"
+        v-model="sValue"
+        :id="sField"
+        :disabled="bDisabled"
+      >
+      <label class="form-check-label" :for="sField">
+        {{sLabel}}
+      </label>
+    </div>
+  </div>
+</template>
+
+<script>
+define(
+  [
+    'Vue', 
+    'jQuery',
+    'qtip'
+  ], 
+  function(Vue) 
+  {
+    return function(in_oFieldOptions)
+    {
+      var oDefaultFieldOptions = {
+        sField: 'TextField',
+        bDisabled: false,
+        bHorizontal: false,
+        sLabel: 'Text field'
+      };
+      var oFieldOptions = Object.assign(oDefaultFieldOptions, in_oFieldOptions);
+      
+      if (!oFieldOptions.sComponentName) {
+        oFieldOptions.sComponentName = oFieldOptions.sField;
+      }
+
+      Vue.component(
+        oFieldOptions.sComponentName,
+        {
+          template: template,
+          data: function() 
+          {
+            return {
+              ...oFieldOptions,
+              aErrors: [],
+            };
+          },
+          computed: {
+            sValue: {
+              cache: false,
+              get () 
+              {
+                console.log("get", this.$store.state[oFieldOptions.sField].sValue);
+                return this.$store.state[oFieldOptions.sField].sValue;
+              },
+              set (sValue)
+              {
+                console.log("set", sValue);
+                this.fnUpdateField(sValue);
+                this.fnValidate();
+              }
+            }
+          },
+          methods: {
+            fnRefresh: function()
+            {
+              console.log("fnRefresh");
+              this.sValue = this.$store.state[oFieldOptions.sField].sValue;
+            },
+            fnValidate: function()
+            {
+              console.log("fnValidate", this.$store.state[oFieldOptions.sField]);
+              this.aErrors = [];
+              var self = this;
+              this.$store.dispatch(
+                'fnValidateField', 
+                {
+                  oData: this.$store.state[oFieldOptions.sField],
+                  fnSuccess: function(oResponseData)
+                  {
+                    console.log('fnSuccess');
+                    if (oResponseData.status == 'error') {
+                      self.aErrors = oResponseData.errors[oFieldOptions.sField];
+                      console.log('aErrors', self.aErrors);                      
+                    }
+                    
+                    $(self.$el)
+                      .qtip('destroy', true);
+
+                    if (self.aErrors.length) {
+                      $(self.$el)
+                        .qtip({
+                          content: {
+                            text: `<ul style='padding:0px;margin:0px;'><li>${self.aErrors.join('</li><li>')}</li></ul>`
+                          },
+                          position: {
+                            my: 'top center',
+                            at: 'bottom center'
+                          }
+                        });
+                    }                    
+                  } 
+                }
+              );
+            },
+            fnUpdateField: function(sValue)
+            {
+              console.log("fnUpdateField", sValue);
+              var oData = Object.assign(this.$data, {sValue: sValue});
+              this.$store.dispatch('fnUpdateField', { oData });
+              this.$emit('change');
+            }
+          },
+          created: function()
+          {
+            console.log('Text field created');
+            this.fnUpdateField("");
+            this.$root.aFields[oFieldOptions.sField] = this;
+          }
+        }
+      );
+    }
+  }
+)
+</script>
+
+
+

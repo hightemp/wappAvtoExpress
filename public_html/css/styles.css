@@ -1,0 +1,130 @@
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background-color: #dcdbe1;  
+}
+
+.sticky-header {
+  position: fixed;
+  top: 0;
+  z-index: 10;
+}
+
+.sticky-top-menu {
+  position: fixed;
+  top: 105px;
+  z-index: 10;
+}
+
+.sticky-button-panel {
+  position: fixed;
+  top: 160px;
+  z-index: 10;
+}
+
+.top-offseted {
+  padding-top: 205px;
+}
+
+.header {
+  height: 105px;
+  padding: 20px 30px 20px 20px;  
+  font-size: 16px;
+  background-color: #fff;
+}
+
+.header-logo {
+  float: left;
+}
+
+.header-menu {
+  float: left;
+  line-height: 60px;
+  margin-left: 35px;
+}
+
+.header-user-information {
+  float: right;
+  line-height: 60px;
+}
+
+.top-menu {
+  background-color: #292f38;
+  height: 55px;
+}
+
+.main-container {
+  background-color: #FFF;
+  min-height: 100%;
+}
+.main-container.container {
+  padding: 0px;
+}
+
+.content {
+  padding-bottom: 50px;
+}
+
+h3 {
+  font-size: 16px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.2em;
+  padding: 2px 8px 2px 0;
+  color: #14a05f;
+  font-weight: bold;
+  text-transform: uppercase;  
+}
+
+.button-panel {
+  height: 45px;
+  background-color: #eee;
+  padding: 5px;
+}
+
+.button-panel>* {
+  margin-right: 10px;
+}
+
+.profile-form .row {
+  margin: 0px;
+}
+
+.profile-form .row>div {
+  padding-right: 0px;
+}
+
+.form-check-input.is-invalid~.form-check-label, .was-validated .form-check-input:invalid~.form-check-label {
+    color: #dc3545;
+}
+
+.alert {
+  border-radius: 0px;
+}
+
+.custom-select {
+  display: block;
+  width: 100%;
+  height: 34px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.hidden {
+  display: none;
+}
+
+.form-check-label {
+  font-weight: normal;
+}
+
