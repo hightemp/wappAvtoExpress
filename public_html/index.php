@@ -529,6 +529,9 @@ class Application {
             }
             break;
           case 'initial_fee':
+            if (!isset($oFieldData['CarPrice']))
+              break;
+            
             $iInitialFee = intVal($aField['sValue']);
             $iCarPrice = intVal($oFieldData['CarPrice']['sValue']);
             

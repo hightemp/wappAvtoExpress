@@ -4,7 +4,7 @@
       <label class="control-label" v-bind:class="{ 'col-sm-2':bHorizontal }">{{sLabel}}</label>
       <div class="" v-bind:class="{ 'col-sm-10':bHorizontal }">
         <select
-          class="form-control custom-select form-check-input"
+          class="form-control"
           v-bind:class="{ 'is-invalid':aErrors.length }"
           :id="sField+sItemValue"
           :disabled="bDisabled"
@@ -94,20 +94,16 @@ define(
                     }
                     
                     $(self.$el)
-                      .qtip('destroy', true);
+                      .tooltip('dispose')
 
                     if (self.aErrors.length) {
                       $(self.$el)
-                        .qtip({
-                          content: {
-                            text: `<ul style='padding:0px;margin:0px;'><li>${self.aErrors.join('</li><li>')}</li></ul>`
-                          },
-                          position: {
-                            my: 'top center',
-                            at: 'bottom center'
-                          }
+                        .tooltip({
+                          placement: 'bottom',
+                          html: true,
+                          title: `<ul><li>${self.aErrors.join('</li><li>')}</li></ul>`
                         });
-                    }                    
+                    }                                        
                   } 
                 }
               );

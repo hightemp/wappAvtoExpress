@@ -99,20 +99,16 @@ define(
                     }
                     
                     $(self.$el)
-                      .qtip('destroy', true);
+                      .tooltip('dispose')
 
                     if (self.aErrors.length) {
                       $(self.$el)
-                        .qtip({
-                          content: {
-                            text: `<ul style='padding:0px;margin:0px;'><li>${self.aErrors.join('</li><li>')}</li></ul>`
-                          },
-                          position: {
-                            my: 'top center',
-                            at: 'bottom center'
-                          }
+                        .tooltip({
+                          placement: 'bottom',
+                          html: true,
+                          title: `<ul><li>${self.aErrors.join('</li><li>')}</li></ul>`
                         });
-                    }                    
+                    }                                        
                   } 
                 }
               );

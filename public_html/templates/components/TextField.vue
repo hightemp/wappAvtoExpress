@@ -6,6 +6,7 @@
         <input 
           type="text" 
           class="form-control"
+          v-bind:class="{ 'is-invalid':aErrors.length }"
           :placeholder="sLabel"
           v-model="sValue"
           :disabled="bDisabled"
@@ -88,10 +89,19 @@ define(
                       console.log('aErrors', self.aErrors);                      
                     }
                     
+                    //$(self.$el)
+                    //  .qtip('destroy', true);
                     $(self.$el)
-                      .qtip('destroy', true);
+                      .tooltip('dispose')
 
                     if (self.aErrors.length) {
+                      $(self.$el)
+                        .tooltip({
+                          placement: 'bottom',
+                          html: true,
+                          title: `<ul><li>${self.aErrors.join('</li><li>')}</li></ul>`
+                        });
+                      /*
                       $(self.$el)
                         .qtip({
                           content: {
@@ -102,6 +112,7 @@ define(
                             at: 'bottom center'
                           }
                         });
+                      */
                     }                    
                   } 
                 }

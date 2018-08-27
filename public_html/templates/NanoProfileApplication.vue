@@ -5,7 +5,7 @@
     method="post"
   >
     <div class="button-panel">
-      <button type="submit" class="btn btn-success pull-right">Отправить</button>
+      <button type="submit" class="btn btn-success float-right">Отправить</button>
     </div>
     
     <div class="alert alert-danger" v-if="Object.keys(aErrors).length">

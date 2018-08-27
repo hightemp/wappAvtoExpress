@@ -5,9 +5,9 @@
     method="post"
   >
     <div class="button-panel">
-      <button type="submit" class="btn btn-success pull-right">Отправить</button>
-      <button class="btn btn-default pull-right" @click="fnSaveToStorage">Сохранить</button>
-      <!--button class="btn btn-default pull-right" @click="fnRefresh">Обновить</button-->
+      <button type="submit" class="btn btn-success float-right">Отправить</button>
+      <button class="btn btn-secondary float-right" @click="fnSaveToStorage">Сохранить</button>
+      <!--button class="btn btn-secondary float-right" @click="fnRefresh">Обновить</button-->
     </div>
 
     <div class="alert alert-danger" v-if="Object.keys(aErrors).length">
@@ -109,14 +109,13 @@
       <div class="row">
         <div class="col-lg-4">
           <PersonHasDriverLicense ref="PersonHasDriverLicense" @change="fnForceUpdate"></PersonHasDriverLicense>
-          <PersonDriverLicenseType ref="PersonDriverLicenseType" @change="fnForceUpdate"></PersonDriverLicenseType>
         </div>
         <div class="col-lg-8">
+          <PersonDriverLicenseType ref="PersonDriverLicenseType" @change="fnForceUpdate"></PersonDriverLicenseType>
+          
+          <hr/>
           
           <div class="row" v-bind:class="{'hidden':$refs.PersonDriverLicenseType && $refs.PersonDriverLicenseType.sValue != 'driver_license_another'}">
-            <div class="col-lg-12">
-              <b>Водительское удостоверение (Иное)</b>
-            </div>
             <div class="col-lg-3">
               <PersonAnotherDriveSeries></PersonAnotherDriveSeries>
             </div>
@@ -129,9 +128,6 @@
           </div>
 
           <div class="row" v-bind:class="{'hidden':$refs.PersonDriverLicenseType && $refs.PersonDriverLicenseType.sValue != 'driver_license'}">
-            <div class="col-lg-12">
-              <b>Водительское удостоверение РФ</b>
-            </div>
             <div class="col-lg-2">
               <PersonDriveSeries></PersonDriveSeries>
             </div>
