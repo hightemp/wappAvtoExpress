@@ -1,5 +1,12 @@
 <?php
 
+function config($sKey, $sDefaultValue='')
+{
+  $aConfig = include "config.php";
+  
+  return isset($aConfig[$sKey]) ? $aConfig[$sKey] : $sDefaultValue;
+}
+
 return [
     'aFields' => [
       "CarPrice" => [
