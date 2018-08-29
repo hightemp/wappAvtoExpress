@@ -43,6 +43,11 @@ define(
           console.log('actions - fnPostShort');
           oAPI.fnPost(this.getters.fnGetActiveFields, "Short", fnSuccess);
         },
+        fnPostFull({ commit, state }, { fnSuccess }) 
+        {
+          console.log('actions - fnPostFull');
+          oAPI.fnPost(this.getters.fnGetActiveFields, "Full", fnSuccess);
+        },
         fnGetAllFields({ commit, state }, { fnSuccess }) 
         {
           console.log('actions - fnGetAllFields');

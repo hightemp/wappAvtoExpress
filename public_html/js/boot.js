@@ -30,7 +30,7 @@ require
     require
     (
       [
-        `requirejs-vue!../templates/${sController}`,
+        'requirejs-vue!../templates/'+sController,
         'Bootstrap',
         'qtip'
       ], 
