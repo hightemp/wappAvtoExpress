@@ -1,10 +1,12 @@
 <?php
 
-function config($sKey, $sDefaultValue='')
-{
-  $aConfig = include "config.php";
-  
-  return isset($aConfig[$sKey]) ? $aConfig[$sKey] : $sDefaultValue;
+if (!function_exists('config')) {
+  function config($sKey, $sDefaultValue='')
+  {
+    $aConfig = include "config.php";
+
+    return isset($aConfig[$sKey]) ? $aConfig[$sKey] : $sDefaultValue;
+  }
 }
 
 return [
@@ -12,6 +14,7 @@ return [
       "CarPrice" => [
           "sTableField" => "car_price",
           "sTable" => "application",
+          "sTableType" => "INT",
           "aValidation" => [
               "required" => true,
               "symbols" => [
@@ -25,6 +28,7 @@ return [
       "InitialFee" => [
           "sTableField" => "credit_initial",
           "sTable" => "application",
+          "sTableType" => "INT",
           "aValidation" => [
               "required" => true,
               "symbols" => [
@@ -36,6 +40,7 @@ return [
       "CreditTerm" => [
           "sTableField" => "credit_term",
           "sTable" => "application",
+          "sTableType" => "INT",
           "aValidation" => [
               "required" => true,
           ],
@@ -43,6 +48,7 @@ return [
       "PersonLastName" => [
           "sTableField" => "last_name",
           "sTable" => "private_person",
+          "sTableType" => "VARCHAR(255)",
           "aValidation" => [
               "required" => true,
               "symbols" => [
@@ -53,6 +59,7 @@ return [
       "PersonFirstName" => [
           "sTableField" => "first_name",
           "sTable" => "private_person",
+          "sTableType" => "VARCHAR(255)",
           "aValidation" => [
               "required" => true,
               "symbols" => [
@@ -63,6 +70,7 @@ return [
       "PersonFatherName" => [
           "sTableField" => "father_name",
           "sTable" => "private_person",
+          "sTableType" => "VARCHAR(255)",
           "aValidation" => [
               "required" => false,
               "symbols" => [
@@ -73,6 +81,7 @@ return [
       "PersonGender" => [
           "sTableField" => "gender",
           "sTable" => "private_person",
+          "sTableType" => "VARCHAR(255)",
           "aValidation" => [
               "required" => true,
           ],
@@ -80,6 +89,7 @@ return [
       "PersonBirthdate" => [
           "sTableField" => "birthdate",
           "sTable" => "private_person",
+          "sTableType" => "DATETIME",
           "aValidation" => [
               "required" => true,
               "date" => [
@@ -91,6 +101,7 @@ return [
       "PersonPassportSeries" => [
           "sTableField" => "series",
           "sTable" => "pp_docs_pass_rf",
+          "sTableType" => "INT",
           "aValidation" => [
               "required" => true,
               "min" => "4",
@@ -103,6 +114,7 @@ return [
       "PersonPassportNumberDoc" => [
           "sTableField" => "number_doc",
           "sTable" => "pp_docs_pass_rf",
+          "sTableType" => "INT",
           "aValidation" => [
               "required" => true,
               "min" => "6",
@@ -115,6 +127,7 @@ return [
       "PersonBirthplace" => [
           "sTableField" => "birthplace",
           "sTable" => "private_person",
+          "sTableType" => "VARCHAR(255)",
           "aValidation" => [
               "required" => true,
               "symbols" => [
@@ -128,6 +141,7 @@ return [
       "PersonPhone" => [
           "sTableField" => "number_phone",
           "sTable" => "phone",
+          "sTableType" => "VARCHAR(255)",
           "aValidation" => [
               "required" => true,
               "phone" => true,
@@ -136,6 +150,7 @@ return [
       "PersonPassportIssueDate" => [
           "sTableField" => "issue_date",
           "sTable" => "pp_docs_pass_rf",
+          "sTableType" => "DATETIME",
           "aValidation" => [
               "required" => true,
               "date" => [
@@ -147,6 +162,7 @@ return [
       "PersonPassportIssueCode" => [
           "sTableField" => "issue_code",
           "sTable" => "pp_docs_pass_rf",
+          "sTableType" => "VARCHAR(255)",
           "aValidation" => [
               "required" => true,
               "issue_code" => true,
@@ -155,6 +171,7 @@ return [
       "PersonPassportIssuePlace" => [
           "sTableField" => "issue_place",
           "sTable" => "pp_docs_pass_rf",
+          "sTableType" => "VARCHAR(255)",
           "aValidation" => [
               "required" => true,
               "symbols" => [
@@ -168,6 +185,7 @@ return [
       "PersonHasDriverLicense" => [
           "sTableField" => "is_drive_license",
           "sTable" => "private_person",
+          "sTableType" => "INT",
           "aValidation" => [
               "required" => true,
           ],
@@ -175,6 +193,7 @@ return [
       "PersonDriverLicenseType" => [
           "sTableField" => "driver_license_type",
           "sTable" => "private_person",
+          "sTableType" => "VARCHAR(255)",
           "aValidation" => [
               "required" => true,
           ],
@@ -182,6 +201,7 @@ return [
       "PersonDriveSeries" => [
           "sTableField" => "series_drive",
           "sTable" => "pp_docs_drivers_license",
+          "sTableType" => "VARCHAR(255)",
           "aValidation" => [
               "required" => true,
               "min" => 4,
@@ -191,6 +211,7 @@ return [
       "PersonDriveDocumentNumber" => [
           "sTableField" => "number_doc_drive",
           "sTable" => "pp_docs_drivers_license",
+          "sTableType" => "INT",
           "aValidation" => [
               "required" => true,
               "min" => 6,
@@ -202,6 +223,7 @@ return [
       "PersonDriveIssueDate" => [
           "sTableField" => "issue_date_drive",
           "sTable" => "pp_docs_drivers_license",
+          "sTableType" => "DATETIME",
           "aValidation" => [
               "required" => true,
               "date" => [
@@ -213,6 +235,7 @@ return [
       "PersonDriveIssuePlace" => [
           "sTableField" => "issue_place_drive",
           "sTable" => "pp_docs_drivers_license",
+          "sTableType" => "VARCHAR(255)",
           "aValidation" => [
               "required" => true,
               "symbols" => [
@@ -226,6 +249,7 @@ return [
       "PersonAnotherDriveSeries" => [
           "sTableField" => "series_drive",
           "sTable" => "pp_docs_drivers_license_another",
+          "sTableType" => "VARCHAR(255)",
           "aValidation" => [
               "required" => true,
           ],
@@ -233,6 +257,7 @@ return [
       "PersonAnotherDriveIssueDate" => [
           "sTableField" => "issue_date_drive",
           "sTable" => "pp_docs_drivers_license_another",
+          "sTableType" => "DATETIME",
           "aValidation" => [
               "required" => true,
               "date" => [
@@ -244,6 +269,7 @@ return [
       "PersonAnotherDriveIssuePlace" => [
           "sTableField" => "issue_place_drive",
           "sTable" => "pp_docs_drivers_license_another",
+          "sTableType" => "VARCHAR(255)",
           "aValidation" => [
               "required" => true,
               "symbols" => [
@@ -257,6 +283,7 @@ return [
       "PersonRalationDegree" => [
           "sTableField" => "relative_type",
           "sTable" => "pp_family",
+          "sTableType" => "VARCHAR(255)",
           "aValidation" => [
               "required" => true,
           ],
@@ -264,6 +291,7 @@ return [
       "DriverLastName" => [
           "sTableField" => "last_name",
           "sTable" => "private_person",
+          "sTableType" => "VARCHAR(255)",
           "aValidation" => [
               "required" => true,
               "symbols" => [
@@ -274,6 +302,7 @@ return [
       "DriverFirstName" => [
           "sTableField" => "first_name",
           "sTable" => "private_person",
+          "sTableType" => "VARCHAR(255)",
           "aValidation" => [
               "required" => true,
               "symbols" => [
@@ -284,12 +313,14 @@ return [
       "DriverFatherName" => [
           "sTableField" => "father_name",
           "sTable" => "private_person",
+          "sTableType" => "VARCHAR(255)",
           "aValidation" => [
           ],
       ],
       "DriverGender" => [
           "sTableField" => "gender_driver",
           "sTable" => "private_person",
+          "sTableType" => "VARCHAR(255)",
           "aValidation" => [
               "required" => true,
           ],
@@ -297,6 +328,7 @@ return [
       "DriverBirthdate" => [
           "sTableField" => "birthdate_driver",
           "sTable" => "private_person",
+          "sTableType" => "DATETIME",
           "aValidation" => [
               "required" => true,
               "date" => [
@@ -308,6 +340,7 @@ return [
       "DriverPassportSeries" => [
           "sTableField" => "series_driver",
           "sTable" => "pp_docs_pass_rf",
+          "sTableType" => "INT",
           "aValidation" => [
               "required" => true,
               "min" => "4",
@@ -320,6 +353,7 @@ return [
       "DriverPassportDocumentNumber" => [
           "sTableField" => "number_doc_driver",
           "sTable" => "pp_docs_pass_rf",
+          "sTableType" => "INT",
           "aValidation" => [
               "required" => true,
               "min" => "6",
@@ -332,6 +366,7 @@ return [
       "DriverPassportIssueDate" => [
           "sTableField" => "issue_date_driver",
           "sTable" => "pp_docs_pass_rf",
+          "sTableType" => "DATETIME",
           "aValidation" => [
               "required" => true,
               "date" => [
@@ -343,6 +378,7 @@ return [
       "DriverPassportIssuePlace" => [
           "sTableField" => "issue_place_driver",
           "sTable" => "pp_docs_pass_rf",
+          "sTableType" => "VARCHAR(255)",
           "aValidation" => [
               "required" => true,
               "symbols" => [
@@ -356,6 +392,7 @@ return [
       "DriverPassportIssueCode" => [
           "sTableField" => "issue_code_driver",
           "sTable" => "pp_docs_pass_rf",
+          "sTableType" => "VARCHAR(255)",
           "aValidation" => [
               "required" => true,
               "issue_code" => true,
@@ -364,13 +401,21 @@ return [
       "PersonRegistrationAddress" => [
           "sTableField" => "full_address",
           "sTable" => "address",
+          "sTableType" => "VARCHAR(255)",
           "aValidation" => [
               "required" => true,
+              "symbols" => [
+                "cyrillic",
+                "number",
+                "spaces",
+                "punctuation",
+              ],
           ],
       ],
       "PersonRegistrationDate" => [
           "sTableField" => "registration_date",
           "sTable" => "private_person",
+          "sTableType" => "DATETIME",
           "aValidation" => [
               "required" => true,
               "date" => [
@@ -382,12 +427,14 @@ return [
       "PersonHasSameAddress" => [
           "sTableField" => "is_same_address",
           "sTable" => "private_person",
+          "sTableType" => "INT",
           "aValidation" => [
           ]
       ],
       "PersonResidenceAddress" => [
           "sTableField" => "full_address",
           "sTable" => "address",
+          "sTableType" => "VARCHAR(255)",
           "aValidation" => [
               "required" => true,
               "symbols" => [
