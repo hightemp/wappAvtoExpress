@@ -45,6 +45,83 @@ return [
               "required" => true,
           ],
       ],
+      "PrivatePersonApplicationID" => [
+          "sTableField" => "application_id",
+          "sTable" => "private_person",
+          "sTableType" => "INT",
+          "aValidation" => [
+              "required" => true,
+              "symbols" => [
+                  "number"
+              ],
+          ],
+      ],        
+      "PPDocsPassRFApplicationID" => [
+          "sTableField" => "application_id",
+          "sTable" => "pp_docs_pass_rf",
+          "sTableType" => "INT",
+          "aValidation" => [
+              "required" => true,
+              "symbols" => [
+                  "number"
+              ],
+          ],
+      ],        
+      "PhoneApplicationID" => [
+          "sTableField" => "application_id",
+          "sTable" => "phone",
+          "sTableType" => "INT",
+          "aValidation" => [
+              "required" => true,
+              "symbols" => [
+                  "number"
+              ],
+          ],
+      ],        
+      "PPDocsDriversLicenseApplicationID" => [
+          "sTableField" => "application_id",
+          "sTable" => "pp_docs_drivers_license",
+          "sTableType" => "INT",
+          "aValidation" => [
+              "required" => true,
+              "symbols" => [
+                  "number"
+              ],
+          ],
+      ],        
+      "PPDocsDriversLicenseAnotherApplicationID" => [
+          "sTableField" => "application_id",
+          "sTable" => "pp_docs_drivers_license_another",
+          "sTableType" => "INT",
+          "aValidation" => [
+              "required" => true,
+              "symbols" => [
+                  "number"
+              ],
+          ],
+      ],        
+      "PPFamilyApplicationID" => [
+          "sTableField" => "application_id",
+          "sTable" => "pp_family",
+          "sTableType" => "INT",
+          "aValidation" => [
+              "required" => true,
+              "symbols" => [
+                  "number"
+              ],
+          ],
+      ],        
+      "AddressApplicationID" => [
+          "sTableField" => "application_id",
+          "sTable" => "address",
+          "sTableType" => "INT",
+          "aValidation" => [
+              "required" => true,
+              "symbols" => [
+                  "number"
+              ],
+          ],
+      ],        
       "PersonLastName" => [
           "sTableField" => "last_name",
           "sTable" => "private_person",

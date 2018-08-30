@@ -5,7 +5,8 @@ define(
     return {
       namespaced: true,
       state: {
-        
+        iApplicationID: 0,
+        oFields: {}
       },
       getters: {
         fnGetActiveFields(state)
@@ -14,8 +15,8 @@ define(
           var oResult = {};
           
           for (var sKey in state) {
-            if (!state[sKey]['bDisabled']) {
-              oResult[sKey] = state[sKey];
+            if (!state['oFields'][sKey]['bDisabled']) {
+              oResult[sKey] = state['oFields'][sKey];
             }
           }
           
@@ -48,10 +49,11 @@ define(
           console.log('actions - fnPostFull');
           oAPI.fnPost(this.getters.fnGetActiveFields, "Full", fnSuccess);
         },
-        fnGetAllFields({ commit, state }, { fnSuccess }) 
+        fnGetApplicationData({ commit, state }, { fnSuccess }) 
         {
-          console.log('actions - fnGetAllFields');
-          oAPI.fnGet(
+          console.log('actions - fnGetApplicationData');
+          oAPI.fnGetApplicationData(
+            state.iApplicationID,
             function(oData)
             {
               for (var sKey in oData['data']) {
@@ -80,9 +82,9 @@ define(
         {
           console.log('mutations - UPDATE_FIELD', oData, sKey);
           if (sKey) {
-            state[sKey] = oData;
+            state['oFields'][sKey] = oData;
           } else {
-            state[oData.sField] = oData;
+            state['oFields'][oData.sField] = oData;
           }
         }
       }

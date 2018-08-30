@@ -39,7 +39,6 @@ define(
       created: function()
       {
         console.log('Application created');
-        localStorage.removeItem('oState');
       },
 
       mounted: function()

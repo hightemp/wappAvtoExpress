@@ -43,14 +43,15 @@ define(
           }
         );
       },
-      fnGet: function(fnSuccess)
+      fnGetApplicationData: function(iApplicationID, fnSuccess)
       {
         $.ajax(
           '',
           {
             method: "POST",
             data: {
-              sAction: "get"
+              sAction: "getApplicationData",
+              iApplicationID: iApplicationID,
             },
             success: fnSuccess,
             error: function(oXHR, sException)
