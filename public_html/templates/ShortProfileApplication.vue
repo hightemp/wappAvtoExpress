@@ -150,7 +150,7 @@
         
         <div class="row">
             <div class="col-lg-2">
-              <PersonRalationDegree></PersonRalationDegree>
+              <PersonRelationDegree></PersonRelationDegree>
             </div>
             <div class="col-lg-2">
               <DriverLastName></DriverLastName>
@@ -300,19 +300,22 @@ define(
         
         FieldOptions = {
           sField: 'PersonBirthdate',
-          sLabel: 'Дата рождения'
+          sLabel: 'Дата рождения',
+          sMask: '99.99.9999'
         };
         fnCreateTextField(FieldOptions);
 
         FieldOptions = {
           sField: 'PersonPassportSeries',
-          sLabel: 'Серия'
+          sLabel: 'Серия',
+          sMask: '9999'
         };
         fnCreateTextField(FieldOptions);
         
         FieldOptions = {
           sField: 'PersonPassportNumberDoc',
-          sLabel: 'Номер'
+          sLabel: 'Номер',
+          sMask: '999999'
         };
         fnCreateTextField(FieldOptions);        
 
@@ -324,19 +327,22 @@ define(
 
         FieldOptions = {
           sField: 'PersonPhone',
-          sLabel: 'Мобильный телефон'
+          sLabel: 'Мобильный телефон',
+          sMask: '+7(999)999-99-99'
         };
         fnCreateTextField(FieldOptions);    
         
         FieldOptions = {
           sField: 'PersonPassportIssueDate',
-          sLabel: 'Дата выдачи'
+          sLabel: 'Дата выдачи',
+          sMask: '99.99.9999'
         };
         fnCreateTextField(FieldOptions);
         
         FieldOptions = {
           sField: 'PersonPassportIssueCode',
-          sLabel: 'Код подразделения'
+          sLabel: 'Код подразделения',
+          sMask: '999-999'
         };
         fnCreateTextField(FieldOptions);
 
@@ -351,7 +357,7 @@ define(
           sLabel: 'Наличие водительского удостоверения',
           aItems: {
             "Да": "1",
-            "Нет": "00"
+            "Нет": "0"
           }
         };
         fnCreateRadioGroupField(FieldOptions);
@@ -369,19 +375,22 @@ define(
         
         FieldOptions = {
           sField: 'PersonDriveSeries',
-          sLabel: 'Серия'
+          sLabel: 'Серия',
+          sMask: '99**'
         };
         fnCreateTextField(FieldOptions);
 
         FieldOptions = {
           sField: 'PersonDriveDocumentNumber',
-          sLabel: 'Номер'
+          sLabel: 'Номер',
+          sMask: '999999'
         };
         fnCreateTextField(FieldOptions);
 
         FieldOptions = {
           sField: 'PersonDriveIssueDate',
-          sLabel: 'Дата выдачи'
+          sLabel: 'Дата выдачи',
+          sMask: '99.99.9999'
         };
         fnCreateTextField(FieldOptions);
     
@@ -399,7 +408,8 @@ define(
         
         FieldOptions = {
           sField: 'PersonAnotherDriveIssueDate',
-          sLabel: 'Дата выдачи'
+          sLabel: 'Дата выдачи',
+          sMask: '99.99.9999'
         };
         fnCreateTextField(FieldOptions);
         
@@ -410,7 +420,7 @@ define(
         fnCreateTextField(FieldOptions);
 
         FieldOptions = {
-          sField: 'PersonRalationDegree',
+          sField: 'PersonRelationDegree',
           sLabel: 'Степень родства',
           aItems: {
             "Супруг": "spouse",
@@ -452,19 +462,22 @@ define(
 
         FieldOptions = {
           sField: 'DriverBirthdate',
-          sLabel: 'Дата рождения'
+          sLabel: 'Дата рождения',
+          sMask: '99.99.9999'
         };
         fnCreateTextField(FieldOptions);
 
         FieldOptions = {
           sField: 'DriverPassportSeries',
-          sLabel: 'Серия'
+          sLabel: 'Серия',
+          sMask: '9999'
         };
         fnCreateTextField(FieldOptions);
 
         FieldOptions = {
           sField: 'DriverPassportDocumentNumber',
-          sLabel: 'Номер'
+          sLabel: 'Номер',
+          sMask: '999999'
         };
         fnCreateTextField(FieldOptions);
 
@@ -476,13 +489,15 @@ define(
 
         FieldOptions = {
           sField: 'DriverPassportIssueDate',
-          sLabel: 'Дата выдачи'
+          sLabel: 'Дата выдачи',
+          sMask: '99.99.9999'
         };
         fnCreateTextField(FieldOptions);
 
         FieldOptions = {
           sField: 'DriverPassportIssueCode',
-          sLabel: 'Код подразделения'
+          sLabel: 'Код подразделения',
+          sMask: '999-999'
         };
         fnCreateTextField(FieldOptions);
 
@@ -494,7 +509,8 @@ define(
         
         FieldOptions = {
           sField: 'PersonRegistrationDate',
-          sLabel: 'Дата регистрации'
+          sLabel: 'Дата регистрации',
+          sMask: '99.99.9999'
         };
         fnCreateTextField(FieldOptions);
         

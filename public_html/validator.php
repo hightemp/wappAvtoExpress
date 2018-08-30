@@ -23,7 +23,7 @@ class Validator
       }
 
       $bRequired = $aScheme[$sField]['aValidation']['required'];
-      if (empty($aField['sValue'])) {
+      if (trim($aField['sValue']) == "") {
         if ($bRequired) {
           $aResult['errors'][$sField][] = "Поле не должно быть пустым";
         }

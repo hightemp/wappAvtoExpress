@@ -58,11 +58,28 @@ class Application
           "pp_family",
           "address",
         ];
-        $aResult['data'] = [];
+        $aResult['aData'] = [];
 
         foreach ($aTables as $sTableName) {
           $aData = $oPDO->query("SELECT * FROM $sTableName WHERE application_id = $iApplicationID");
-          $aResult['data'] = array_merge($aResult['data'], $this->fnPackFields($sTableName, $aData, config('aFields')));
+          $aResult['aData'] = array_merge($aResult['aData'], $this->fnPackFields($sTableName, $aData, config('aFields')));
+        }
+      }
+
+      if ($_REQUEST['sAction'] == 'getApplicationFields') {
+        $aFields = config('aApplicationsFields')[$_REQUEST['sType']];
+        
+        $aResult['oFields'] = [];
+        
+        foreach ($aFields as $sFieldName) {
+          $aField = config('aFields')[$sFieldName];
+          $aResult['oFields'][$sFieldName] = [];
+          
+          foreach ($aField as $sKey => $mValue) {
+            if (in_array($sKey, config('aAvailableFieldsClientData'))) {
+              $aResult['oFields'][$sFieldName][$sKey] = $mValue;
+            }
+          }
         }
       }
 

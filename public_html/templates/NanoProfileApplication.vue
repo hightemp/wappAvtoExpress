@@ -58,9 +58,10 @@ define(
   [
     'Vue',
     'Store',
+    'API',
     'requirejs-vue!../templates/components/TextField'
   ],
-  function(Vue, store, fnCreateTextField)
+  function(Vue, store, API, fnCreateTextField)
   {
     var oApplication = new Vue({
       template: template,
@@ -75,6 +76,27 @@ define(
       beforeCreate: function()
       {
         console.log('beforeCreate');
+        
+        API.fnGetApplicationFields(
+          'Nano',
+          function(oData)
+          {
+            for (var sFieldName in oData.oFields) {
+              var FieldOptions;
+
+              FieldOptions = {
+                sField: sFieldName,
+                ...oData.oFields[sFieldName]
+              };
+              console.log('fnCreate'+oData.oFields[sFieldName].sComponentType);
+              if (!oData.oFields[sFieldName].sComponentType)
+                continue;
+              
+              eval('fnCreate'+oData.oFields[sFieldName].sComponentType+'(FieldOptions)');
+            }
+          }
+        );
+        /*
         var FieldOptions;
         
         FieldOptions = {
@@ -97,21 +119,25 @@ define(
         
         FieldOptions = {
           sField: 'PersonBirthdate',
-          sLabel: 'Дата рождения'
+          sLabel: 'Дата рождения',
+          sMask: '99.99.9999'
         };
         fnCreateTextField(FieldOptions);
 
         FieldOptions = {
           sField: 'PersonPassportSeries',
-          sLabel: 'Серия'
+          sLabel: 'Серия',
+          sMask: '9999'
         };
         fnCreateTextField(FieldOptions);
         
         FieldOptions = {
           sField: 'PersonPassportNumberDoc',
-          sLabel: 'Номер'
+          sLabel: 'Номер',
+          sMask: '999999'
         };
-        fnCreateTextField(FieldOptions);        
+        fnCreateTextField(FieldOptions);
+        */
       },
       
       created: function()

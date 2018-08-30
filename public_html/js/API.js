@@ -43,6 +43,24 @@ define(
           }
         );
       },
+      fnGetApplicationFields: function(sType, fnSuccess)
+      {
+        $.ajax(
+          '',
+          {
+            method: "POST",
+            data: {
+              sAction: "getApplicationFields",
+              sType: sType
+            },
+            success: fnSuccess,
+            error: function(oXHR, sException)
+            {
+              console.log(oXHR, sException);
+            }
+          }
+        );
+      },      
       fnGetApplicationData: function(iApplicationID, fnSuccess)
       {
         $.ajax(
@@ -51,7 +69,7 @@ define(
             method: "POST",
             data: {
               sAction: "getApplicationData",
-              iApplicationID: iApplicationID,
+              iApplicationID: iApplicationID
             },
             success: fnSuccess,
             error: function(oXHR, sException)

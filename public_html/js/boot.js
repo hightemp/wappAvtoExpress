@@ -3,6 +3,7 @@ require
   {
     paths: {
       'jQuery': 'https://unpkg.com/jquery@3.3.1/dist/jquery',
+      'jQueryMaskedInput': 'jquery.maskedinput',
       'Popper': 'popper',
       'Bootstrap': 'bootstrap',
       'Vue': 'https://unpkg.com/vue@2.5.17/dist/vue',
@@ -31,6 +32,7 @@ require
     (
       [
         'requirejs-vue!../templates/'+sController,
+        'jQueryMaskedInput',
         'Bootstrap',
         'qtip'
       ], 

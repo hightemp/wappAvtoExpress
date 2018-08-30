@@ -54,8 +54,8 @@ define(
               cache: false,
               get () 
               {
-                console.log("get", this.$store.state[oFieldOptions.sField].sValue);
-                return this.$store.state[oFieldOptions.sField].sValue;
+                console.log("get", this.$store.state.oFields[oFieldOptions.sField].sValue);
+                return this.$store.state.oFields[oFieldOptions.sField].sValue;
               },
               set (sValue)
               {
@@ -69,17 +69,17 @@ define(
             fnRefresh: function()
             {
               console.log("fnRefresh");
-              this.sValue = this.$store.state[oFieldOptions.sField].sValue;
+              this.sValue = this.$store.state.oFields[oFieldOptions.sField].sValue;
             },
             fnValidate: function()
             {
-              console.log("fnValidate", this.$store.state[oFieldOptions.sField]);
+              console.log("fnValidate", this.$store.state.oFields[oFieldOptions.sField]);
               this.aErrors = [];
               var self = this;
               this.$store.dispatch(
                 'fnValidateField', 
                 {
-                  oData: this.$store.state[oFieldOptions.sField],
+                  oData: this.$store.state.oFields[oFieldOptions.sField],
                   fnSuccess: function(oResponseData)
                   {
                     console.log('fnSuccess');
