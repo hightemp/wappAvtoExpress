@@ -206,9 +206,9 @@ define(
   ],
   function(
     Vue, 
-    store, 
-    API,
-    ComponentBuilder
+    oStore, 
+    oAPI,
+    oComponentBuilder
   )
   {
     if (!localStorage.getItem('oState')) {
@@ -225,23 +225,22 @@ define(
           aFields: {}
         },
 
-        store,
+        store: oStore,
 
         beforeCreate: function()
         {
-          console.log('beforeCreate');
+          console.log('Application - beforeCreate');
         },
 
         created: function()
         {
-          console.log('Application created');
-          console.log(this);
+          console.log('Application - created', this);
         },
 
         mounted: function()
         {
-          console.log('Application mounted');
-          this.$store.dispatch('fnLoadFromStorage');  
+          console.log('Application - mounted');
+          this.$store.dispatch('Profile/fnLoadFromStorage');  
           this.fnRefresh();
         },
 
@@ -272,11 +271,11 @@ define(
             var oThis = this;
 
             this.$store.dispatch(
-              'fnPostShort', 
+              'Profile/fnPostShort', 
               {
                 fnSuccess: function(oResponseData)
                 {
-                  console.log('fnSendForm - fnPostShort - fnSuccess', oResponseData);
+                  console.log('Application - fnSendForm - fnPostShort - fnSuccess', oResponseData);
                   if (oResponseData.status == 'error') {
                     oThis.aErrors = oResponseData.errors;
                   } else {
@@ -291,14 +290,14 @@ define(
 
           fnForceUpdate: function()
           {
-            console.log('fnForceUpdate');
+            console.log('Application - fnForceUpdate');
             this.$forceUpdate();
           },
 
           fnSaveToStorage: function()
           {
-            this.$store.dispatch('fnSaveToStorage');
-            console.log('fnSaveToStorage - this.aFields', this.aFields);
+            this.$store.dispatch('Profile/fnSaveToStorage');
+            console.log('Application - fnSaveToStorage - this.aFields', this.aFields);
           }
 
         }      
@@ -307,22 +306,22 @@ define(
       oApplication.$mount('#application');
     }
     
-    API.fnGetApplicationFields(
+    oAPI.fnGetApplicationFields(
       'Short',
       function(oData)
       {
-        console.log('fnGetApplicationFields - Short');
+        console.log('API - fnGetApplicationFields - Short - fnSuccess');
 
         for (var sFieldName in oData.oFields) {
           var FieldOptions;
 
           FieldOptions = {
-            sField: sFieldName,
-            ...oData.oFields[sFieldName]
+            sField: sFieldName
           };
           
-          //console.log(oData.oFields[sFieldName].sComponentType, FieldOptions);
-          ComponentBuilder.fnCreate(oData.oFields[sFieldName].sComponentType, FieldOptions);
+          FieldOptions = mergeObjects(FieldOptions, oData.oFields[sFieldName]);
+          
+          oComponentBuilder.fnCreate(oData.oFields[sFieldName].sComponentType, FieldOptions);
         }
         
         fnCreateApplication();

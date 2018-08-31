@@ -4,6 +4,7 @@ date_default_timezone_set('UTC');
 
 include_once "validator.php";
 include "config.php";
+include_once "database.php";
 
 class Application 
 {

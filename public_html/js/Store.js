@@ -10,11 +10,11 @@ define(
     
     return new Vuex.Store({
       modules: {
-        //Profile
+        Profile: Profile
       },
       strict: false,
       plugins: [],
-      ...Profile
+      //...Profile
     })
   }
 );

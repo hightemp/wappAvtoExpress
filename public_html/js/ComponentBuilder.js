@@ -6,18 +6,18 @@ define(
     'requirejs-vue!../templates/components/CheckboxField'
   ], 
   function(
-    TextField,
-    RadioGroupField,
-    SelectboxField,
-    CheckboxField
+    fnTextField,
+    fnRadioGroupField,
+    fnSelectboxField,
+    fnCheckboxField
   ) 
   {
     return {
       oComponents: {
-        TextField: TextField,
-        RadioGroupField: RadioGroupField,
-        SelectboxField: SelectboxField,
-        CheckboxField: CheckboxField
+        TextField: fnTextField,
+        RadioGroupField: fnRadioGroupField,
+        SelectboxField: fnSelectboxField,
+        CheckboxField: fnCheckboxField
       },
       fnCreate: function(sComponentName, oOptions) {
         return this.oComponents[sComponentName](oOptions);

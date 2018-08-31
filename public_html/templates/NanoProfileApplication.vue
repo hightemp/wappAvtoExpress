@@ -61,7 +61,12 @@ define(
     'API',
     'ComponentBuilder'
   ],
-  function(Vue, store, API, ComponentBuilder)
+  function(
+    Vue, 
+    oStore, 
+    oAPI, 
+    oComponentBuilder
+  )
   { 
     function fnCreateApplication()
     {
@@ -73,22 +78,22 @@ define(
           aFields: {}
         },
 
-        store,
+        store: oStore,
 
         beforeCreate: function()
         {
-          console.log('beforeCreate');
+          console.log('Application - beforeCreate');
         },
 
         created: function()
         {
-          console.log('Application created');
-          localStorage.removeItem('oState');
+          console.log('Application - created');
+          this.$store.dispatch('Profile/fnClearStorage');
         },
 
         mounted: function()
         {
-          console.log('Application mounted');        
+          console.log('Application - mounted');        
         },
 
         methods: {
@@ -109,15 +114,15 @@ define(
             var oThis = this;
 
             this.$store.dispatch(
-              'fnPostNano', 
+              'Profile/fnPostNano', 
               {
                 fnSuccess: function(oResponseData)
                 {
-                  console.log('fnSendForm - fnPostNano - fnSuccess', oResponseData);
+                  console.log('Application - fnSendForm - fnPostNano - fnSuccess', oResponseData);
                   if (oResponseData.status == 'error') {
                     oThis.aErrors = oResponseData.errors;
                   } else {
-                    oThis.$store.dispatch('fnSaveToStorage');
+                    oThis.$store.dispatch('Profile/fnSaveToStorage');
                     location.href = '/?c=ShortProfileApplication';
                   }
                 }
@@ -133,21 +138,22 @@ define(
       oApplication.$mount('#application');
     }
 
-    API.fnGetApplicationFields(
+    oAPI.fnGetApplicationFields(
       'Nano',
       function(oData)
       {
-        console.log('fnGetApplicationFields - Nano');
+        console.log('API - fnGetApplicationFields - Nano - fnSuccess');
 
         for (var sFieldName in oData.oFields) {
           var FieldOptions;
 
           FieldOptions = {
-            sField: sFieldName,
-            ...oData.oFields[sFieldName]
+            sField: sFieldName
           };
+          
+          FieldOptions = mergeObjects(FieldOptions, oData.oFields[sFieldName]);
 
-          ComponentBuilder.fnCreate(oData.oFields[sFieldName].sComponentType, FieldOptions);
+          oComponentBuilder.fnCreate(oData.oFields[sFieldName].sComponentType, FieldOptions);
         }
         
         fnCreateApplication();

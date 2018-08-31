@@ -31,13 +31,13 @@ define(
     return function(in_oFieldOptions)
     {
       var oDefaultFieldOptions = {
-        sField: 'TextField',
+        sField: 'SelectboxField',
         bDisabled: false,
         bHorizontal: false,
-        sLabel: 'Text field',
+        sLabel: 'Selectbox field',
         aItems: {}
       };
-      var oFieldOptions = Object.assign(oDefaultFieldOptions, in_oFieldOptions);
+      var oFieldOptions = mergeObjects(oDefaultFieldOptions, in_oFieldOptions);
       
       if (!oFieldOptions.sComponentName) {
         oFieldOptions.sComponentName = oFieldOptions.sField;
@@ -49,18 +49,19 @@ define(
           template: template,
           data: function() 
           {
-            return {
-              ...oFieldOptions,
-              aErrors: [],
+            var oResult = {
+              aErrors: []
             };
+            
+            return mergeObjects(oResult, oFieldOptions);
           },
           computed: {
             sValue: {
               cache: false,
               get () 
               {
-                console.log("get", this.$store.state.oFields[oFieldOptions.sField].sValue);
-                return this.$store.state.oFields[oFieldOptions.sField].sValue;
+                console.log("get", this.$store.state.Profile.oFields[oFieldOptions.sField].sValue);
+                return this.$store.state.Profile.oFields[oFieldOptions.sField].sValue;
               },
               set (sValue)
               {
@@ -73,18 +74,18 @@ define(
           methods: {
             fnRefresh: function()
             {
-              console.log("fnRefresh");
-              this.sValue = this.$store.state.oFields[oFieldOptions.sField].sValue;
+              console.log("Select box - fnRefresh");
+              this.sValue = this.$store.state.Profile.oFields[oFieldOptions.sField].sValue;
             },
             fnValidate: function()
             {
-              console.log("fnValidate", this.$store.state.oFields[oFieldOptions.sField]);
+              console.log("Select box - fnValidate", this.$store.state.Profile.oFields[oFieldOptions.sField]);
               this.aErrors = [];
               var self = this;
               this.$store.dispatch(
-                'fnValidateField', 
+                'Profile/fnValidateField', 
                 {
-                  oData: this.$store.state.oFields[oFieldOptions.sField],
+                  oData: this.$store.state.Profile.oFields[oFieldOptions.sField],
                   fnSuccess: function(oResponseData)
                   {
                     console.log('fnSuccess');
@@ -110,20 +111,16 @@ define(
             },
             fnUpdateField: function(sValue)
             {
-              console.log("fnUpdateField", sValue);
-              var oData = Object.assign(this.$data, {sValue: sValue});
-              this.$store.dispatch('fnUpdateField', { oData });
+              console.log("Select box - fnUpdateField", sValue);
+              var oData = mergeObjects(this.$data, {sValue: sValue});
+              this.$store.dispatch('Profile/fnUpdateField', { oData:oData });
               this.$emit('change');
             }
           },
           created: function()
           {
             console.log('Select box field created', oFieldOptions.sField);
-            if (oFieldOptions.sDefaultValue) {
-              this.fnUpdateField(oFieldOptions.sDefaultValue);
-            } else {
-              this.fnUpdateField("");
-            }
+            this.fnUpdateField(oFieldOptions.sDefaultValue || "");
             this.$root.aFields[oFieldOptions.sField] = this;
           }
         }

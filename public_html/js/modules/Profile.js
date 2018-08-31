@@ -9,16 +9,16 @@ define(
         oFields: {}
       },
       getters: {
-        fnGetActiveFieldsValues(state)
+        fnGetActiveFieldsValues(oState)
         {
-          console.log('getters - fnGetActiveFieldsValues', state['oFields']);
+          console.log('getters - fnGetActiveFieldsValues', oState['oFields']);
           var oResult = {};
           
-          for (var sKey in state['oFields']) {
-            if (!state['oFields'][sKey]['bDisabled']) {
+          for (var sKey in oState['oFields']) {
+            if (!oState['oFields'][sKey]['bDisabled']) {
               oResult[sKey] = {};
-              oResult[sKey]['sField'] = state['oFields'][sKey]['sField'];
-              oResult[sKey]['sValue'] = state['oFields'][sKey]['sValue'];
+              oResult[sKey]['sField'] = oState['oFields'][sKey]['sField'];
+              oResult[sKey]['sValue'] = oState['oFields'][sKey]['sValue'];
             }
           }
           
@@ -26,7 +26,7 @@ define(
         }
       },
       actions: {
-        fnValidateField({ commit, state }, { oData, fnSuccess }) 
+        fnValidateField(oArguments, { oData, fnSuccess }) 
         {
           console.log('actions - fnValidateField', { oData, fnSuccess });
           oAPI.fnValidate(
@@ -37,63 +37,81 @@ define(
             fnSuccess
           );
         },
-        fnUpdateField({ commit, state }, { oData }) 
+        fnUpdateField(oMethods, oArguments) 
         {
-          console.log('actions - fnUpdateField', { oData });
-          commit('UPDATE_FIELD', oData);
+          console.log('actions - fnUpdateField', oArguments);
+          oMethods.commit('UPDATE_FIELD', [oArguments.oData]);
         },
-        fnPostNano({ commit, state }, { fnSuccess }) 
+        fnPostNano(oMethods, oArguments) 
         {
           console.log('actions - fnPostNano');
-          oAPI.fnPost(this.getters.fnGetActiveFieldsValues, "Nano", fnSuccess);
+          oAPI.fnPost(this.getters.fnGetActiveFieldsValues, "Nano", oArguments.fnSuccess);
         },
-        fnPostShort({ commit, state }, { fnSuccess }) 
+        fnPostShort(oMethods, oArguments) 
         {
           console.log('actions - fnPostShort');
-          oAPI.fnPost(this.getters.fnGetActiveFieldsValues, "Short", fnSuccess);
+          oAPI.fnPost(this.getters.fnGetActiveFieldsValues, "Short", oArguments.fnSuccess);
         },
-        fnPostFull({ commit, state }, { fnSuccess }) 
+        fnPostFull(oMethods, oArguments) 
         {
           console.log('actions - fnPostFull');
-          oAPI.fnPost(this.getters.fnGetActiveFieldsValues, "Full", fnSuccess);
+          oAPI.fnPost(this.getters.fnGetActiveFieldsValues, "Full", oArguments.fnSuccess);
         },
-        fnGetApplicationData({ commit, state }, { fnSuccess }) 
+        fnGetApplicationData(oMethods, oArguments) 
         {
           console.log('actions - fnGetApplicationData');
           oAPI.fnGetApplicationData(
-            state.iApplicationID,
+            oMethods.state.iApplicationID,
             function(oData)
             {
               for (var sKey in oData['data']) {
-                commit('UPDATE_FIELD', oData['data'][sKey]);
+                oMethods.commit('UPDATE_FIELD', [oData['data'][sKey]]);
               }
-              fnSuccess(oData);
+              oArguments.fnSuccess(oData);
             }
           );
         },
-        fnSaveToStorage({ commit, state })
+        fnClearStorage(oMethods)
+        {
+          console.log('actions - fnClearStorage');
+          localStorage.removeItem('oState');
+        },
+        fnSaveToStorage(oMethods)
         {
           console.log('actions - fnSaveToStorage');
-          localStorage.setItem('oState', JSON.stringify(state));
+          localStorage.setItem('oState', JSON.stringify(oMethods.state));
         },
-        fnLoadFromStorage({ commit, state })
+        fnLoadFromStorage(oMethods)
         {
           console.log('actions - fnLoadFromStorage');
           var oStorageState = JSON.parse(localStorage.getItem('oState'));
           for (var sKey in oStorageState) {
-            commit('UPDATE_FIELD', oStorageState[sKey], sKey);
+            oMethods.commit('UPDATE_STATE', [oStorageState[sKey], sKey]);
           }
         }
       },
       mutations: {
-        UPDATE_FIELD(state, oData, sKey) 
+        UPDATE_STATE(oState, aArguments) 
         {
-          console.log('mutations - UPDATE_FIELD', oData, sKey);
-          if (sKey != undefined) {
-            state['oFields'][sKey] = oData;
+          console.log('mutations - UPDATE_STATE', aArguments[0], aArguments[1]);
+          
+          if (oState[aArguments[1]] && typeof aArguments[0] == "object") {
+            oState[aArguments[1]] = mergeObjects(oState[aArguments[1]], aArguments[0]);
           } else {
-            state['oFields'][oData.sField] = oData;
+            oState[aArguments[1]] = aArguments[0];
           }
+        },
+        UPDATE_FIELD(oState, aArguments) 
+        {
+          console.log('mutations - UPDATE_FIELD', aArguments[0], aArguments[1]);
+          
+          if (aArguments[1] != undefined) {
+            oState['oFields'][aArguments[1]] = aArguments[0];
+          } else {
+            oState['oFields'][aArguments[0].sField] = aArguments[0];
+          }
+          
+          console.log('mutations - UPDATE_FIELD', JSON.stringify(oState));
         }
       }
     };

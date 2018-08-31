@@ -10,7 +10,7 @@ define(
     'Vue',
     'Store'
   ],
-  function(Vue, store, fnCreateTextField)
+  function(Vue, oStore, fnCreateTextField)
   {
     var oApplication = new Vue({
       template: template,
@@ -19,7 +19,7 @@ define(
         aRecords: []
       },
       
-      store,
+      store: oStore,
 
       beforeCreate: function()
       {

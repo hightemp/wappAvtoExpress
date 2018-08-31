@@ -2,13 +2,14 @@ require
 (
   {
     paths: {
-      'jQuery': 'https://unpkg.com/jquery@3.3.1/dist/jquery',
+      'jQuery': 'jquery',
       'jQueryMaskedInput': 'jquery.maskedinput',
       'Popper': 'popper',
       'Bootstrap': 'bootstrap',
-      'Vue': 'https://unpkg.com/vue@2.5.17/dist/vue',
-      'Vuex': 'https://unpkg.com/vuex@3.0.1/dist/vuex',
-      'requirejs-vue': 'https://unpkg.com/requirejs-vue@1.1.5/requirejs-vue',
+      'Vue': 'vue',
+      'Vuex': 'vuex',
+      'requirejs-vue': 'requirejs-vue',
+      'babel-polyfill': 'polyfill',
       'ComponentBuilder': 'ComponentBuilder',
       'qtip': 'jquery.qtip.min',
       'scripts': 'scripts',
@@ -21,12 +22,14 @@ require
     'Vue', 
     'jQuery',
     'Popper',
+    'jQueryMaskedInput',
+    'Bootstrap',
     'requirejs-vue',
     'scripts'
   ],
   function(Vue)
   {    
-    var sController = (new URLSearchParams(location.search)).get("c");
+    var sController = (fnGetUrlParams(location.href))["c"];
     console.log(sController);
     
     require
