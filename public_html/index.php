@@ -85,11 +85,11 @@ class Application
       }
 
       if ($_REQUEST['sAction'] == 'validate') {
-        $aResult = array_merge_recursive($aResult, Validator::fnValidateFields([ $_REQUEST['oData'] ], config('aFields')));
+        $aResult = array_merge_recursive($aResult, Validator::fnValidateFields([ $_REQUEST['oData'] ]));
       }
 
       if ($_REQUEST['sAction'] == 'post') {
-        $aResult = array_merge_recursive($aResult, Validator::fnValidateFields($_REQUEST['oData'], config('aFields')));
+        $aResult = array_merge_recursive($aResult, Validator::fnValidateFields($_REQUEST['oData'], $_REQUEST['sType']));
 
         if (!count($aResult['errors'])) {
           if ($_REQUEST['sType']=='Short') {

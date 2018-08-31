@@ -279,7 +279,7 @@ define(
                   if (oResponseData.status == 'error') {
                     oThis.aErrors = oResponseData.errors;
                   } else {
-                    location.href = '/?c=ProfilesList';
+                    //location.href = '/?c=ProfilesList';
                   }
                 }
               }

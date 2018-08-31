@@ -3,42 +3,63 @@
 class Validator
 {
   
-  public static function fnValidateFields($oFieldData, $aScheme)
+  public static function fnValidateFields($oFieldData, $sApplicationType=null)
   {
+    $aScheme = config('aFields');
+    
     $aResult = [
       'errors' => []
     ];
+    
+    if ($sApplicationType) {
+      $aApplicationsFields = config('aApplicationsFields');
+      
+      foreach($aApplicationsFields[$sApplicationType] as $aFieldName) {
+        if (!isset($aScheme[$aFieldName]['aValidation'])) {
+          continue;
+        }
 
+        $bRequired = $aScheme[$aFieldName]['aValidation']['required'];
+
+        if (!isset($oFieldData[$aFieldName])) {
+          if ($bRequired) {
+            $aResult['errors'][$aFieldName][] = "Обязательное поле $aFieldName не найдено";
+          }
+        }
+      }
+    }
+    
     foreach($oFieldData as $aField) {
       
-      $sField = $aField['sField'];
+      $sFieldName = $aField['sField'];
 
-      if (!isset($aScheme[$sField])) {
-        $aResult['errors'][$sField][] = "Поле $sField не найдено";
+      if (!isset($aScheme[$sFieldName])) {
+        $aResult['errors'][$sFieldName][] = "Поле $sFieldName не найдено";
       }
 
-      if (!isset($aScheme[$sField]['aValidation'])) {
+      if (!isset($aScheme[$sFieldName]['aValidation'])) {
         continue;
       }
 
-      $bRequired = $aScheme[$sField]['aValidation']['required'];
+      $bRequired = $aScheme[$sFieldName]['aValidation']['required'];
+      
       if (trim($aField['sValue']) == "") {
         if ($bRequired) {
-          $aResult['errors'][$sField][] = "Поле не должно быть пустым";
+          $aResult['errors'][$sFieldName][] = "Поле не должно быть пустым";
         }
         continue;
-      } 
-
-      foreach ($aScheme[$sField]['aValidation'] as $aValidatorName => $aValidatorOptions) {
+      }
+      
+      foreach ($aScheme[$sFieldName]['aValidation'] as $aValidatorName => $aValidatorOptions) {
         switch ($aValidatorName) {
           case 'min':
             if (mb_strlen($aField['sValue'])<$aValidatorOptions) {
-              $aResult['errors'][$sField][] = "Значение поля не должно быть меньше $aValidatorOptions символов";
+              $aResult['errors'][$sFieldName][] = "Значение поля не должно быть меньше $aValidatorOptions символов";
             }
             break;
           case 'max':
             if (mb_strlen($aField['sValue'])>$aValidatorOptions) {
-              $aResult['errors'][$sField][] = "Значение поля не должно быть больше $aValidatorOptions символов";
+              $aResult['errors'][$sFieldName][] = "Значение поля не должно быть больше $aValidatorOptions символов";
             }
             break;
           case 'symbols':
@@ -76,7 +97,7 @@ class Validator
             }
 
             if (!preg_match("/^[$sRegexp]*$/u", $aField['sValue'])) {
-              $aResult['errors'][$sField][] = "Поле содержит запрещенные сиволы";
+              $aResult['errors'][$sFieldName][] = "Поле содержит запрещенные сиволы";
             }
 
             break;
@@ -85,14 +106,14 @@ class Validator
 
             if (isset($aValidatorOptions["min"])) {
               if ($iValue < $aValidatorOptions["min"]) {
-                $aResult['errors'][$sField][] = "Число не должно быть меньше {$aValidatorOptions["min"]}"; 
+                $aResult['errors'][$sFieldName][] = "Число не должно быть меньше {$aValidatorOptions["min"]}"; 
                 break;
               }
             }
 
             if (isset($aValidatorOptions["max"])) {
               if ($iValue > $aValidatorOptions["max"]) {
-                $aResult['errors'][$sField][] = "Число не должно быть больше {$aValidatorOptions["max"]}"; 
+                $aResult['errors'][$sFieldName][] = "Число не должно быть больше {$aValidatorOptions["max"]}"; 
                 break;
               }
             }
@@ -102,14 +123,14 @@ class Validator
             $sRegexp = "/\d?\d\.\d?\d\.\d\d\d\d/";
 
             if (!preg_match($sRegexp, $aField['sValue'])) {
-              $aResult['errors'][$sField][] = "Неверный формат даты"; 
+              $aResult['errors'][$sFieldName][] = "Неверный формат даты"; 
               break;
             }
 
             $iDate = strtotime($aField['sValue']);
 
             if ($iDate == -1) {
-              $aResult['errors'][$sField][] = "Неверный формат даты"; 
+              $aResult['errors'][$sFieldName][] = "Неверный формат даты"; 
               break;
             }
 
@@ -118,7 +139,7 @@ class Validator
               $iMaxDate = strtotime($aValidatorOptions["max"]); 
 
               if ($iDate<$iMinDate || $iDate>$iMaxDate) {
-                $aResult['errors'][$sField][] = "Дата вне диапозона";
+                $aResult['errors'][$sFieldName][] = "Дата вне диапозона";
               }
             }
             break;
@@ -126,14 +147,14 @@ class Validator
             $sRegexp = '/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/';
 
             if (!preg_match($sRegexp, $aField['sValue'])) {
-              $aResult['errors'][$sField][] = "Неверный формат e-mail";
+              $aResult['errors'][$sFieldName][] = "Неверный формат e-mail";
             }
             break;
           case 'phone':
             $sRegexp = "/^\s*(\+[1-9]|8)?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/";
 
             if (!preg_match($sRegexp, $aField['sValue'])) {
-              $aResult['errors'][$sField][] = "Не верный формат телефона +0 (000) 000-00-00";
+              $aResult['errors'][$sFieldName][] = "Не верный формат телефона +0 (000) 000-00-00";
             }
             break;
           case 'initial_fee':
@@ -144,21 +165,21 @@ class Validator
             $iCarPrice = intVal($oFieldData['CarPrice']['sValue']);
             
             if ($iInitialFee>$iCarPrice) {
-              $aResult['errors'][$sField][] = "Первоначальный взнос не может быть больше цены автомобиля";
+              $aResult['errors'][$sFieldName][] = "Первоначальный взнос не может быть больше цены автомобиля";
             }   
             break;
           case 'issue_code':
             $sRegexp = "/^\d\d\d-\d\d\d$/";
 
             if (!preg_match($sRegexp, $aField['sValue'])) {
-              $aResult['errors'][$sField][] = "Неверный код подразделения";
+              $aResult['errors'][$sFieldName][] = "Неверный код подразделения";
             }          
             break;
           case 'drive_series':
             $sRegexp = "/^\d\d[a-zA-Zа-яА-ЯёЁ][a-zA-Zа-яА-ЯёЁ]$/";
 
             if (!preg_match($sRegexp, $aField['sValue'])) {
-              $aResult['errors'][$sField][] = "Неверный формат серии";
+              $aResult['errors'][$sFieldName][] = "Неверный формат серии";
             }          
             break;
         }

@@ -14,7 +14,7 @@ define(
             method: "POST",
             data: {
               sAction: "validate",
-              oData
+              oData: oData
             },
             async: false,
             success: fnSuccess,
@@ -27,7 +27,7 @@ define(
       },
       fnPost: function(oData, sType, fnSuccess)
       {
-        console.log('API - fnPost');
+        console.log('API - fnPost', oData, sType, fnSuccess);
         $.ajax(
           '',
           {
@@ -35,7 +35,7 @@ define(
             data: {
               sAction: "post",
               sType: sType,
-              oData
+              oData: oData
             },
             success: fnSuccess,
             error: function(oXHR, sException)

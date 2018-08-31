@@ -11,7 +11,6 @@ require
       'requirejs-vue': 'requirejs-vue',
       'babel-polyfill': 'polyfill',
       'ComponentBuilder': 'ComponentBuilder',
-      'qtip': 'jquery.qtip.min',
       'scripts': 'scripts',
       'API': 'API',
       'Store': 'Store',

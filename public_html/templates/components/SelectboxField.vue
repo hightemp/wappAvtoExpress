@@ -23,8 +23,7 @@
 define(
   [
     'Vue', 
-    'jQuery',
-    'qtip'
+    'jQuery'
   ], 
   function(Vue) 
   {
@@ -60,12 +59,12 @@ define(
               cache: false,
               get () 
               {
-                console.log("get", this.$store.state.Profile.oFields[oFieldOptions.sField].sValue);
+                console.log("Select box - get", this.$store.state.Profile.oFields[oFieldOptions.sField].sValue);
                 return this.$store.state.Profile.oFields[oFieldOptions.sField].sValue;
               },
               set (sValue)
               {
-                console.log("set", sValue);
+                console.log("Select box - set", sValue);
                 this.fnUpdateField(sValue);
                 this.fnValidate();
               }

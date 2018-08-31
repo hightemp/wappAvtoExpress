@@ -12,6 +12,7 @@ define(
         fnGetActiveFieldsValues(oState)
         {
           console.log('getters - fnGetActiveFieldsValues', oState['oFields']);
+          
           var oResult = {};
           
           for (var sKey in oState['oFields']) {
@@ -26,40 +27,46 @@ define(
         }
       },
       actions: {
-        fnValidateField(oArguments, { oData, fnSuccess }) 
+        fnValidateField(oMethods, oArguments) 
         {
-          console.log('actions - fnValidateField', { oData, fnSuccess });
+          console.log('actions - fnValidateField', oArguments);
+          
           oAPI.fnValidate(
             {
-              sField: oData.sField,
-              sValue: oData.sValue
+              sField: oArguments.oData.sField,
+              sValue: oArguments.oData.sValue
             }, 
-            fnSuccess
+            oArguments.fnSuccess
           );
         },
         fnUpdateField(oMethods, oArguments) 
         {
           console.log('actions - fnUpdateField', oArguments);
+          
           oMethods.commit('UPDATE_FIELD', [oArguments.oData]);
         },
         fnPostNano(oMethods, oArguments) 
         {
           console.log('actions - fnPostNano');
+          
           oAPI.fnPost(this.getters.fnGetActiveFieldsValues, "Nano", oArguments.fnSuccess);
         },
         fnPostShort(oMethods, oArguments) 
         {
           console.log('actions - fnPostShort');
+          
           oAPI.fnPost(this.getters.fnGetActiveFieldsValues, "Short", oArguments.fnSuccess);
         },
         fnPostFull(oMethods, oArguments) 
         {
           console.log('actions - fnPostFull');
+          
           oAPI.fnPost(this.getters.fnGetActiveFieldsValues, "Full", oArguments.fnSuccess);
         },
         fnGetApplicationData(oMethods, oArguments) 
         {
           console.log('actions - fnGetApplicationData');
+          
           oAPI.fnGetApplicationData(
             oMethods.state.iApplicationID,
             function(oData)
@@ -74,16 +81,19 @@ define(
         fnClearStorage(oMethods)
         {
           console.log('actions - fnClearStorage');
+          
           localStorage.removeItem('oState');
         },
         fnSaveToStorage(oMethods)
         {
           console.log('actions - fnSaveToStorage');
+          
           localStorage.setItem('oState', JSON.stringify(oMethods.state));
         },
         fnLoadFromStorage(oMethods)
         {
           console.log('actions - fnLoadFromStorage');
+          
           var oStorageState = JSON.parse(localStorage.getItem('oState'));
           for (var sKey in oStorageState) {
             oMethods.commit('UPDATE_STATE', [oStorageState[sKey], sKey]);
@@ -110,8 +120,6 @@ define(
           } else {
             oState['oFields'][aArguments[0].sField] = aArguments[0];
           }
-          
-          console.log('mutations - UPDATE_FIELD', JSON.stringify(oState));
         }
       }
     };

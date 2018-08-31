@@ -20,8 +20,7 @@
 define(
   [
     'Vue', 
-    'jQuery',
-    'qtip'
+    'jQuery'
   ], 
   function(Vue) 
   {
@@ -57,12 +56,12 @@ define(
               cache: false,
               get () 
               {
-                console.log("get", this.$store.state.Profile.oFields[oFieldOptions.sField].sValue);
+                console.log("Text field - get", this.$store.state.Profile.oFields[oFieldOptions.sField].sValue);
                 return this.$store.state.Profile.oFields[oFieldOptions.sField].sValue;
               },
               set (sValue)
               {
-                console.log("set", sValue);
+                console.log("Text field - set", sValue);
                 this.fnUpdateField(sValue);
                 this.fnValidate();
               }
@@ -91,8 +90,6 @@ define(
                       console.log('aErrors', self.aErrors);                      
                     }
                     
-                    //$(self.$el)
-                    //  .qtip('destroy', true);
                     $(self.$el)
                       .tooltip('dispose')
 
@@ -103,18 +100,6 @@ define(
                           html: true,
                           title: `<ul><li>${self.aErrors.join('</li><li>')}</li></ul>`
                         });
-                      /*
-                      $(self.$el)
-                        .qtip({
-                          content: {
-                            text: `<ul style='padding:0px;margin:0px;'><li>${self.aErrors.join('</li><li>')}</li></ul>`
-                          },
-                          position: {
-                            my: 'top center',
-                            at: 'bottom center'
-                          }
-                        });
-                      */
                     }                    
                   } 
                 }
