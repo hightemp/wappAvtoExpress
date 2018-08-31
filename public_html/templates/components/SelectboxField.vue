@@ -118,7 +118,7 @@ define(
           },
           created: function()
           {
-            console.log('Select box field created');
+            console.log('Select box field created', oFieldOptions.sField);
             if (oFieldOptions.sDefaultValue) {
               this.fnUpdateField(oFieldOptions.sDefaultValue);
             } else {

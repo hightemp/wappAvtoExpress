@@ -201,406 +201,134 @@ define(
   [
     'Vue',
     'Store',
-    'requirejs-vue!../templates/components/TextField',
-    'requirejs-vue!../templates/components/RadioGroupField',
-    'requirejs-vue!../templates/components/SelectboxField',
-    'requirejs-vue!../templates/components/CheckboxField'
+    'API',
+    'ComponentBuilder'
   ],
   function(
     Vue, 
     store, 
-    fnCreateTextField, 
-    fnCreateRadioGroupField,
-    fnCreateSelectboxField,
-    fnCreateCheckboxField
+    API,
+    ComponentBuilder
   )
   {
     if (!localStorage.getItem('oState')) {
       location.href = '/?c=NanoProfileApplication';
     } 
     
-    var oApplication = new Vue({
-      template: template,
+    function fnCreateApplication()
+    {    
+      var oApplication = new Vue({
+        template: template,
 
-      data: {
-        aErrors: [],
-        aFields: {}
-      },
-      
-      store,
-
-      beforeCreate: function()
-      {
-        console.log('beforeCreate');
-        var FieldOptions;
-                
-        FieldOptions = {
-          sField: 'CarPrice',
-          sLabel: 'Цена авто'
-        };
-        fnCreateTextField(FieldOptions);
-        
-        FieldOptions = {
-          sField: 'InitialFee',
-          sLabel: 'Первоначальный взнос'
-        };
-        fnCreateTextField(FieldOptions);
-        
-        FieldOptions = {
-          sField: 'CreditTerm',
-          sLabel: 'Срок кредита',
-          aItems: {
-            "6 мес. (0.5 года)": "6",
-            "12 мес. (1 год)": "12",
-            "18 мес. (1.5 года)": "18",
-            "24 мес. (2 года)": "24",
-            "30 мес. (2.5 года)": "30",
-            "36 мес. (3 года)": "36",
-            "42 мес. (3.5 года)": "42",
-            "48 мес. (4 года)": "48",
-            "54 мес. (4.5 года)": "54",
-            "60 мес. (5 лет)": "60",
-            "66 мес. (5.5 лет)": "66",
-            "72 мес. (6 лет)": "72",
-            "78 мес. (6.5 лет)": "78",
-            "84 мес. (7 лет)": "84",
-            "90 мес. (7.5 лет)": "90",
-            "96 мес. (8 лет)": "96"
-          }
-        };
-        fnCreateSelectboxField(FieldOptions);
-
-        FieldOptions = {
-          sField: 'PersonLastName',
-          sLabel: 'Фамилия'
-        };
-        fnCreateTextField(FieldOptions);
-        
-        FieldOptions = {
-          sField: 'PersonFirstName',
-          sLabel: 'Имя'
-        };
-        fnCreateTextField(FieldOptions);
-
-        FieldOptions = {
-          sField: 'PersonFatherName',
-          sLabel: 'Отчество'
-        };
-        fnCreateTextField(FieldOptions);
-        
-        FieldOptions = {
-          sField: 'PersonGender',
-          sLabel: 'Пол',
-          aItems: {
-            "Муж": "male",
-            "Жен": "female"
-          }
-        };
-        fnCreateRadioGroupField(FieldOptions);
-        
-        FieldOptions = {
-          sField: 'PersonBirthdate',
-          sLabel: 'Дата рождения',
-          sMask: '99.99.9999'
-        };
-        fnCreateTextField(FieldOptions);
-
-        FieldOptions = {
-          sField: 'PersonPassportSeries',
-          sLabel: 'Серия',
-          sMask: '9999'
-        };
-        fnCreateTextField(FieldOptions);
-        
-        FieldOptions = {
-          sField: 'PersonPassportNumberDoc',
-          sLabel: 'Номер',
-          sMask: '999999'
-        };
-        fnCreateTextField(FieldOptions);        
-
-        FieldOptions = {
-          sField: 'PersonBirthplace',
-          sLabel: 'Место рождения'
-        };
-        fnCreateTextField(FieldOptions);        
-
-        FieldOptions = {
-          sField: 'PersonPhone',
-          sLabel: 'Мобильный телефон',
-          sMask: '+7(999)999-99-99'
-        };
-        fnCreateTextField(FieldOptions);    
-        
-        FieldOptions = {
-          sField: 'PersonPassportIssueDate',
-          sLabel: 'Дата выдачи',
-          sMask: '99.99.9999'
-        };
-        fnCreateTextField(FieldOptions);
-        
-        FieldOptions = {
-          sField: 'PersonPassportIssueCode',
-          sLabel: 'Код подразделения',
-          sMask: '999-999'
-        };
-        fnCreateTextField(FieldOptions);
-
-        FieldOptions = {
-          sField: 'PersonPassportIssuePlace',
-          sLabel: 'Кем выдан'
-        };
-        fnCreateTextField(FieldOptions);
-        
-        FieldOptions = {
-          sField: 'PersonHasDriverLicense',
-          sLabel: 'Наличие водительского удостоверения',
-          aItems: {
-            "Да": "1",
-            "Нет": "0"
-          }
-        };
-        fnCreateRadioGroupField(FieldOptions);
-        
-        FieldOptions = {
-          sField: 'PersonDriverLicenseType',
-          sLabel: 'Тип водительского удостоверения',
-          sDefaultValue: "driver_license",
-          aItems: {
-            "Водительское удостоверение РФ": "driver_license",
-            "Водительское удостоверение (Иное)": "driver_license_another"
-          }
-        };
-        fnCreateSelectboxField(FieldOptions);
-        
-        FieldOptions = {
-          sField: 'PersonDriveSeries',
-          sLabel: 'Серия',
-          sMask: '99**'
-        };
-        fnCreateTextField(FieldOptions);
-
-        FieldOptions = {
-          sField: 'PersonDriveDocumentNumber',
-          sLabel: 'Номер',
-          sMask: '999999'
-        };
-        fnCreateTextField(FieldOptions);
-
-        FieldOptions = {
-          sField: 'PersonDriveIssueDate',
-          sLabel: 'Дата выдачи',
-          sMask: '99.99.9999'
-        };
-        fnCreateTextField(FieldOptions);
-    
-        FieldOptions = {
-          sField: 'PersonDriveIssuePlace',
-          sLabel: 'Кем выдан'
-        };
-        fnCreateTextField(FieldOptions);
-
-        FieldOptions = {
-          sField: 'PersonAnotherDriveSeries',
-          sLabel: 'Серия/Номер'
-        };
-        fnCreateTextField(FieldOptions);
-        
-        FieldOptions = {
-          sField: 'PersonAnotherDriveIssueDate',
-          sLabel: 'Дата выдачи',
-          sMask: '99.99.9999'
-        };
-        fnCreateTextField(FieldOptions);
-        
-        FieldOptions = {
-          sField: 'PersonAnotherDriveIssuePlace',
-          sLabel: 'Кем выдан'
-        };
-        fnCreateTextField(FieldOptions);
-
-        FieldOptions = {
-          sField: 'PersonRelationDegree',
-          sLabel: 'Степень родства',
-          aItems: {
-            "Супруг": "spouse",
-            "Супруга": "wife",
-            "Сын/Дочь": "child",
-            "Отец/Мать": "parent",
-            "Брат/Сестра": "sibling"
-          }
-        };
-        fnCreateSelectboxField(FieldOptions);
-
-        FieldOptions = {
-          sField: 'DriverLastName',
-          sLabel: 'Фамилия'
-        };
-        fnCreateTextField(FieldOptions);
-
-        FieldOptions = {
-          sField: 'DriverFirstName',
-          sLabel: 'Имя'
-        };
-        fnCreateTextField(FieldOptions);
-
-        FieldOptions = {
-          sField: 'DriverFatherName',
-          sLabel: 'Отчество'
-        };
-        fnCreateTextField(FieldOptions);
-
-        FieldOptions = {
-          sField: 'DriverGender',
-          sLabel: 'Пол',
-          aItems: {
-            "Муж": "male",
-            "Жен": "female"
-          }
-        };
-        fnCreateRadioGroupField(FieldOptions);
-
-        FieldOptions = {
-          sField: 'DriverBirthdate',
-          sLabel: 'Дата рождения',
-          sMask: '99.99.9999'
-        };
-        fnCreateTextField(FieldOptions);
-
-        FieldOptions = {
-          sField: 'DriverPassportSeries',
-          sLabel: 'Серия',
-          sMask: '9999'
-        };
-        fnCreateTextField(FieldOptions);
-
-        FieldOptions = {
-          sField: 'DriverPassportDocumentNumber',
-          sLabel: 'Номер',
-          sMask: '999999'
-        };
-        fnCreateTextField(FieldOptions);
-
-        FieldOptions = {
-          sField: 'DriverPassportIssuePlace',
-          sLabel: 'Кем выдан'
-        };
-        fnCreateTextField(FieldOptions);
-
-        FieldOptions = {
-          sField: 'DriverPassportIssueDate',
-          sLabel: 'Дата выдачи',
-          sMask: '99.99.9999'
-        };
-        fnCreateTextField(FieldOptions);
-
-        FieldOptions = {
-          sField: 'DriverPassportIssueCode',
-          sLabel: 'Код подразделения',
-          sMask: '999-999'
-        };
-        fnCreateTextField(FieldOptions);
-
-        FieldOptions = {
-          sField: 'PersonRegistrationAddress',
-          sLabel: 'Адрес регистрации'
-        };
-        fnCreateTextField(FieldOptions);
-        
-        FieldOptions = {
-          sField: 'PersonRegistrationDate',
-          sLabel: 'Дата регистрации',
-          sMask: '99.99.9999'
-        };
-        fnCreateTextField(FieldOptions);
-        
-        FieldOptions = {
-          sField: 'PersonHasSameAddress',
-          sLabel: 'Совпадает с адресом места жительства'
-        };
-        fnCreateCheckboxField(FieldOptions);
-        
-        FieldOptions = {
-          sField: 'PersonResidenceAddress',
-          sLabel: 'Адрес проживания'
-        };
-        fnCreateTextField(FieldOptions);
-      },
-      
-      created: function()
-      {
-        console.log('Application created');
-        console.log(this);
-      },
-
-      mounted: function()
-      {
-        console.log('Application mounted');
-        this.$store.dispatch('fnLoadFromStorage');  
-        this.fnRefresh();
-      },
-      
-      methods: {
-        fnRefresh: function()
-        {
-          var oThis = this;
-
-          for (var iIndex in oThis.aFields) {
-            oThis.aFields[iIndex].fnRefresh();
-          }
+        data: {
+          aErrors: [],
+          aFields: {}
         },
-        
-        fnValidate: function()
-        {
-          this.aErrors = [];
 
-          for (var iIndex in this.aFields) {
-            this.aFields[iIndex].fnValidate();
-            this.aErrors = this.aErrors.concat(this.aFields[iIndex].aErrors);
-          }
-        },
-        
-        fnSendForm: function(oEvent) 
+        store,
+
+        beforeCreate: function()
         {
-          oEvent.preventDefault();
-          
-          var oThis = this;
-          
-          this.fnValidate();
-          
-          if (!oThis.aErrors.length) {
-            return true;
-          }
-          
-          this.$store.dispatch(
-            'fnPostShort', 
-            {
-              fnSuccess: function(oResponseData)
-              {
-                console.log('fnSendForm - fnPostShort - fnSuccess', oResponseData);
-              }
+          console.log('beforeCreate');
+        },
+
+        created: function()
+        {
+          console.log('Application created');
+          console.log(this);
+        },
+
+        mounted: function()
+        {
+          console.log('Application mounted');
+          this.$store.dispatch('fnLoadFromStorage');  
+          this.fnRefresh();
+        },
+
+        methods: {
+          fnRefresh: function()
+          {
+            var oThis = this;
+
+            for (var iIndex in oThis.aFields) {
+              oThis.aFields[iIndex].fnRefresh();
             }
-          );
+          },
+
+          fnValidate: function()
+          {
+            this.aErrors = [];
+
+            for (var iIndex in this.aFields) {
+              this.aFields[iIndex].fnValidate();
+              this.aErrors = this.aErrors.concat(this.aFields[iIndex].aErrors);
+            }
+          },
+
+          fnSendForm: function(oEvent) 
+          {
+            oEvent.preventDefault();
+
+            var oThis = this;
+
+            this.$store.dispatch(
+              'fnPostShort', 
+              {
+                fnSuccess: function(oResponseData)
+                {
+                  console.log('fnSendForm - fnPostShort - fnSuccess', oResponseData);
+                  if (oResponseData.status == 'error') {
+                    oThis.aErrors = oResponseData.errors;
+                  } else {
+                    location.href = '/?c=ProfilesList';
+                  }
+                }
+              }
+            );
+
+            return false;
+          },
+
+          fnForceUpdate: function()
+          {
+            console.log('fnForceUpdate');
+            this.$forceUpdate();
+          },
+
+          fnSaveToStorage: function()
+          {
+            this.$store.dispatch('fnSaveToStorage');
+            console.log('fnSaveToStorage - this.aFields', this.aFields);
+          }
+
+        }      
+      });
+
+      oApplication.$mount('#application');
+    }
+    
+    API.fnGetApplicationFields(
+      'Short',
+      function(oData)
+      {
+        console.log('fnGetApplicationFields - Short');
+
+        for (var sFieldName in oData.oFields) {
+          var FieldOptions;
+
+          FieldOptions = {
+            sField: sFieldName,
+            ...oData.oFields[sFieldName]
+          };
           
-          return false;
-        },
-        
-        fnForceUpdate: function()
-        {
-          console.log('fnForceUpdate');
-          this.$forceUpdate();
-        },
-        
-        fnSaveToStorage: function()
-        {
-          this.$store.dispatch('fnSaveToStorage');
-          console.log('fnSaveToStorage - this.aFields', this.aFields);
+          //console.log(oData.oFields[sFieldName].sComponentType, FieldOptions);
+          ComponentBuilder.fnCreate(oData.oFields[sFieldName].sComponentType, FieldOptions);
         }
         
-      }      
-    });
-
-    return oApplication;
+        fnCreateApplication();
+      }
+    );
+    
   }
 );
 </script>

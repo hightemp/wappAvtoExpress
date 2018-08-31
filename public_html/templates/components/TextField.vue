@@ -129,10 +129,10 @@ define(
           },
           created: function()
           {
-            console.log('Text field created');
+            console.log('Text field created', oFieldOptions.sField);
             
             this.fnUpdateField("");
-            this.$root.aFields[oFieldOptions.sField] = this;            
+            this.$root.aFields[oFieldOptions.sField] = this;
           },
           mounted: function()
           {

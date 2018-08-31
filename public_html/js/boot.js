@@ -9,6 +9,7 @@ require
       'Vue': 'https://unpkg.com/vue@2.5.17/dist/vue',
       'Vuex': 'https://unpkg.com/vuex@3.0.1/dist/vuex',
       'requirejs-vue': 'https://unpkg.com/requirejs-vue@1.1.5/requirejs-vue',
+      'ComponentBuilder': 'ComponentBuilder',
       'qtip': 'jquery.qtip.min',
       'scripts': 'scripts',
       'API': 'API',
@@ -31,14 +32,11 @@ require
     require
     (
       [
-        'requirejs-vue!../templates/'+sController,
-        'jQueryMaskedInput',
-        'Bootstrap',
-        'qtip'
+        'requirejs-vue!../templates/'+sController
       ], 
-      function(oApplication)
+      function()
       {
-        oApplication.$mount('#application');
+        
       }
     );        
   }

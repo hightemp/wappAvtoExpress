@@ -113,7 +113,7 @@ define(
           },
           created: function()
           {
-            console.log('Text field created');
+            console.log('Checkbox field created', oFieldOptions.sField);
             this.fnUpdateField("");
             this.$root.aFields[oFieldOptions.sField] = this;
           }

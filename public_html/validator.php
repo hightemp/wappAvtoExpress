@@ -6,8 +6,7 @@ class Validator
   public static function fnValidateFields($oFieldData, $aScheme)
   {
     $aResult = [
-      'errors' => [
-      ]
+      'errors' => []
     ];
 
     foreach($oFieldData as $aField) {

@@ -59,138 +59,100 @@ define(
     'Vue',
     'Store',
     'API',
-    'requirejs-vue!../templates/components/TextField'
+    'ComponentBuilder'
   ],
-  function(Vue, store, API, fnCreateTextField)
-  {
-    var oApplication = new Vue({
-      template: template,
+  function(Vue, store, API, ComponentBuilder)
+  { 
+    function fnCreateApplication()
+    {
+      var oApplication = new Vue({
+        template: template,
 
-      data: {
-        aErrors: [],
-        aFields: {}
-      },
-      
-      store,
-
-      beforeCreate: function()
-      {
-        console.log('beforeCreate');
-        
-        API.fnGetApplicationFields(
-          'Nano',
-          function(oData)
-          {
-            for (var sFieldName in oData.oFields) {
-              var FieldOptions;
-
-              FieldOptions = {
-                sField: sFieldName,
-                ...oData.oFields[sFieldName]
-              };
-              console.log('fnCreate'+oData.oFields[sFieldName].sComponentType);
-              if (!oData.oFields[sFieldName].sComponentType)
-                continue;
-              
-              eval('fnCreate'+oData.oFields[sFieldName].sComponentType+'(FieldOptions)');
-            }
-          }
-        );
-        /*
-        var FieldOptions;
-        
-        FieldOptions = {
-          sField: 'PersonLastName',
-          sLabel: 'Фамилия'
-        };
-        fnCreateTextField(FieldOptions);
-        
-        FieldOptions = {
-          sField: 'PersonFirstName',
-          sLabel: 'Имя'
-        };
-        fnCreateTextField(FieldOptions);
-
-        FieldOptions = {
-          sField: 'PersonFatherName',
-          sLabel: 'Отчество'
-        };
-        fnCreateTextField(FieldOptions);
-        
-        FieldOptions = {
-          sField: 'PersonBirthdate',
-          sLabel: 'Дата рождения',
-          sMask: '99.99.9999'
-        };
-        fnCreateTextField(FieldOptions);
-
-        FieldOptions = {
-          sField: 'PersonPassportSeries',
-          sLabel: 'Серия',
-          sMask: '9999'
-        };
-        fnCreateTextField(FieldOptions);
-        
-        FieldOptions = {
-          sField: 'PersonPassportNumberDoc',
-          sLabel: 'Номер',
-          sMask: '999999'
-        };
-        fnCreateTextField(FieldOptions);
-        */
-      },
-      
-      created: function()
-      {
-        console.log('Application created');
-        localStorage.removeItem('oState');
-      },
-
-      mounted: function()
-      {
-        console.log('Application mounted');        
-      },
-      
-      methods: {
-        fnValidate: function()
-        {
-          this.aErrors = [];
-
-          for (var iIndex in this.aFields) {
-            this.aFields[iIndex].fnValidate();
-            this.aErrors = this.aErrors.concat(this.aFields[iIndex].aErrors);
-          }
+        data: {
+          aErrors: [],
+          aFields: {}
         },
-        
-        fnSendForm: function(oEvent) 
+
+        store,
+
+        beforeCreate: function()
         {
-          oEvent.preventDefault();
-          
-          var oThis = this;
-                    
-          this.$store.dispatch(
-            'fnPostNano', 
-            {
-              fnSuccess: function(oResponseData)
+          console.log('beforeCreate');
+        },
+
+        created: function()
+        {
+          console.log('Application created');
+          localStorage.removeItem('oState');
+        },
+
+        mounted: function()
+        {
+          console.log('Application mounted');        
+        },
+
+        methods: {
+          fnValidate: function()
+          {
+            this.aErrors = [];
+
+            for (var iIndex in this.aFields) {
+              this.aFields[iIndex].fnValidate();
+              this.aErrors = this.aErrors.concat(this.aFields[iIndex].aErrors);
+            }
+          },
+
+          fnSendForm: function(oEvent) 
+          {
+            oEvent.preventDefault();
+
+            var oThis = this;
+
+            this.$store.dispatch(
+              'fnPostNano', 
               {
-                console.log('fnSendForm - fnPostNano - fnSuccess', oResponseData);
-                if (oResponseData.status == 'error') {
-                  oThis.aErrors = oResponseData.errors;
-                } else {
-                  oThis.$store.dispatch('fnSaveToStorage');
-                  location.href = '/?c=ShortProfileApplication';
+                fnSuccess: function(oResponseData)
+                {
+                  console.log('fnSendForm - fnPostNano - fnSuccess', oResponseData);
+                  if (oResponseData.status == 'error') {
+                    oThis.aErrors = oResponseData.errors;
+                  } else {
+                    oThis.$store.dispatch('fnSaveToStorage');
+                    location.href = '/?c=ShortProfileApplication';
+                  }
                 }
               }
-            }
-          );
-          
-          return false;
+            );
+
+            return false;
+          }
+
+        }      
+      });
+
+      oApplication.$mount('#application');
+    }
+
+    API.fnGetApplicationFields(
+      'Nano',
+      function(oData)
+      {
+        console.log('fnGetApplicationFields - Nano');
+
+        for (var sFieldName in oData.oFields) {
+          var FieldOptions;
+
+          FieldOptions = {
+            sField: sFieldName,
+            ...oData.oFields[sFieldName]
+          };
+
+          ComponentBuilder.fnCreate(oData.oFields[sFieldName].sComponentType, FieldOptions);
         }
         
-      }      
-    });
-
-    return oApplication;
+        fnCreateApplication();
+      }
+    );
   }
 );
 </script>

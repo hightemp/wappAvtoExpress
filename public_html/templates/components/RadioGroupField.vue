@@ -123,7 +123,7 @@ define(
           },
           created: function()
           {
-            console.log('Radio field created');
+            console.log('Radio field created', oFieldOptions.sField);
             this.fnUpdateField("");
             this.$root.aFields[oFieldOptions.sField] = this;
           }

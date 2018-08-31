@@ -88,7 +88,7 @@ class Application
       }
 
       if ($_REQUEST['sAction'] == 'post') {
-        $aResult = array_merge_recursive($aResult, Validator::fnValidateFields($_REQUEST['oData']), config('aFields'));
+        $aResult = array_merge_recursive($aResult, Validator::fnValidateFields($_REQUEST['oData'], config('aFields')));
 
         if (!count($aResult['errors'])) {
           if ($_REQUEST['sType']=='Short') {

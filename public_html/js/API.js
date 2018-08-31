@@ -7,6 +7,7 @@ define(
     return {
       fnValidate: function(oData, fnSuccess)
       {
+        console.log('API - fnValidate');
         $.ajax(
           '',
           {
@@ -26,6 +27,7 @@ define(
       },
       fnPost: function(oData, sType, fnSuccess)
       {
+        console.log('API - fnPost');
         $.ajax(
           '',
           {
@@ -45,6 +47,7 @@ define(
       },
       fnGetApplicationFields: function(sType, fnSuccess)
       {
+        console.log('API - fnGetApplicationFields');
         $.ajax(
           '',
           {
@@ -63,6 +66,7 @@ define(
       },      
       fnGetApplicationData: function(iApplicationID, fnSuccess)
       {
+        console.log('API - fnGetApplicationData');
         $.ajax(
           '',
           {

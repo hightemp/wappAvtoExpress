@@ -9,14 +9,16 @@ define(
         oFields: {}
       },
       getters: {
-        fnGetActiveFields(state)
+        fnGetActiveFieldsValues(state)
         {
-          console.log('getters - fnGetActiveFields');
+          console.log('getters - fnGetActiveFieldsValues', state['oFields']);
           var oResult = {};
           
-          for (var sKey in state) {
+          for (var sKey in state['oFields']) {
             if (!state['oFields'][sKey]['bDisabled']) {
-              oResult[sKey] = state['oFields'][sKey];
+              oResult[sKey] = {};
+              oResult[sKey]['sField'] = state['oFields'][sKey]['sField'];
+              oResult[sKey]['sValue'] = state['oFields'][sKey]['sValue'];
             }
           }
           
@@ -27,7 +29,13 @@ define(
         fnValidateField({ commit, state }, { oData, fnSuccess }) 
         {
           console.log('actions - fnValidateField', { oData, fnSuccess });
-          oAPI.fnValidate(oData, fnSuccess);
+          oAPI.fnValidate(
+            {
+              sField: oData.sField,
+              sValue: oData.sValue
+            }, 
+            fnSuccess
+          );
         },
         fnUpdateField({ commit, state }, { oData }) 
         {
@@ -37,17 +45,17 @@ define(
         fnPostNano({ commit, state }, { fnSuccess }) 
         {
           console.log('actions - fnPostNano');
-          oAPI.fnPost(this.getters.fnGetActiveFields, "Nano", fnSuccess);
+          oAPI.fnPost(this.getters.fnGetActiveFieldsValues, "Nano", fnSuccess);
         },
         fnPostShort({ commit, state }, { fnSuccess }) 
         {
           console.log('actions - fnPostShort');
-          oAPI.fnPost(this.getters.fnGetActiveFields, "Short", fnSuccess);
+          oAPI.fnPost(this.getters.fnGetActiveFieldsValues, "Short", fnSuccess);
         },
         fnPostFull({ commit, state }, { fnSuccess }) 
         {
           console.log('actions - fnPostFull');
-          oAPI.fnPost(this.getters.fnGetActiveFields, "Full", fnSuccess);
+          oAPI.fnPost(this.getters.fnGetActiveFieldsValues, "Full", fnSuccess);
         },
         fnGetApplicationData({ commit, state }, { fnSuccess }) 
         {
@@ -81,7 +89,7 @@ define(
         UPDATE_FIELD(state, oData, sKey) 
         {
           console.log('mutations - UPDATE_FIELD', oData, sKey);
-          if (sKey) {
+          if (sKey != undefined) {
             state['oFields'][sKey] = oData;
           } else {
             state['oFields'][oData.sField] = oData;
